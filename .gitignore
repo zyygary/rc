@@ -1,0 +1,13 @@
+.idea/
+.venv/
+__pycache__/
+*/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+_material_previews/
+cooling_power_plot.png
+cooling_power_plot.pdf
+radiative_cooling_final.pdf
+test1.py
