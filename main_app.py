@@ -1,3 +1,5 @@
+"""Desktop application entry point for the TMM simulation platform."""
+
 import sys
 
 from PySide2.QtCore import QSize

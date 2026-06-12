@@ -1,3 +1,5 @@
+"""English launcher for the desktop TMM simulation platform."""
+
 import sys
 
 from PySide2.QtWidgets import QApplication
