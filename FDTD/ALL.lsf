@@ -1,0 +1,5 @@
+f=getdata("R","f");
+R=transmission("R");
+A=1-R;
+plot(c/f*1e6,A,R,"波长(um)","R");
+legend("A","R");
