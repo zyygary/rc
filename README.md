@@ -4,16 +4,34 @@ This repository contains the source code, material database, spectral data, and 
 
 ## Contents
 
-- `main_app.py`: main desktop application entry point
-- `main_app_en.py`: English entry point
-- `core/`: numerical core for TMM, spectra loading, and cooling-power calculations
-- `ui/`: PySide2 user interface for materials, TMM simulation, sweep, angle scan, and cooling analysis
-- `materials/`: optical-constant text files used by the simulator
-- `data/`: solar spectrum and atmospheric transmittance input data
-- `FDTD/`: FDTD project files used for complementary full-wave simulations
-- `test_efield.py`: electric-field visualization helper
-- `test_integration_limits.py`: cooling/integration sensitivity script
-- `vision.py`: material interpolation preview utility
+- `main_app.py`: main PySide2 desktop entry point; loads the material/spectral managers, creates the five-tab main window, and supports runtime language switching
+- `main_app_en.py`: thin English launcher that starts the same `MainWindow` with `LANGUAGE_EN`
+- `main_app.spec`: PyInstaller spec file for packaging the desktop application
+- `vision.py`: standalone material-preview script that interpolates every material file and saves `n/k` comparison plots to `_material_previews/`
+- `test_efield.py`: standalone PySide2 + pyqtgraph tool for visualizing the 2D internal electric-field intensity map of a multilayer stack while sweeping the MgF2 thickness
+- `test_integration_limits.py`: diagnostic script for overriding solar/thermal integration limits and checking how `P_sum`, `P_atm`, and equilibrium temperature change
+- `core/constants.py`: shared physical constants, wavelength grid definition, and canonical `data/` and `materials/` paths
+- `core/material_manager.py`: loads optical-constant text files, validates/parses them, supports adding new material files, and interpolates complex refractive indices onto the simulation grid
+- `core/spectral_manager.py`: loads the solar spectrum and atmospheric transmittance data, interpolates them onto the common wavelength grid, builds blackbody spectra, and prepares the default solar/thermal integration windows
+- `core/tmm_core.py`: vectorized transfer-matrix implementation for spectral scans and angle scans, returning `R_s` and `R_p`
+- `core/cooling_calculator.py`: radiative-cooling post-processing routines for `P_sum`, `P_rad`, `P_atm`, non-radiative loss, temperature sweeps, and equilibrium-temperature solving
+- `core/utils.py`: helper functions for parsing compact layer-stack strings and computing weighted emissivity/reflectance averages
+- `core/__init__.py`: package marker for the numerical core
+- `ui/material_viewer_widget.py`: materials tab for browsing loaded materials, plotting `n/k`, and importing additional `.txt` optical-constant files
+- `ui/tmm_simulator_widget.py`: main TMM workflow tab for defining multilayer stacks, running spectral calculations, and displaying reflectance/emissivity results
+- `ui/tmm_simulator_layout.py`: layout builder used by the TMM simulator tab
+- `ui/layer_widget.py`: reusable single-layer row widget with material selection, thickness entry, and add/remove controls
+- `ui/sweep_widget.py`: parameter-sweep tab for single-layer thickness scans, 2D heatmaps, and slider-driven exploration of stack response
+- `ui/angle_scan_widget.py`: angle-scan tab that reuses the structure from the TMM tab and evaluates angular optical response for different polarizations
+- `ui/cooling_widget.py`: radiative-cooling tab for loading a structure, computing `P_atm`/`P_sum`, sweeping `T_sample`, and reporting equilibrium temperature
+- `ui/i18n.py`: minimal language-switch helper with `zh/en` normalization and text selection
+- `ui/reviewer_english.py`: helper that forces a window into English review mode
+- `ui/styles.py`: application-wide Qt stylesheet and pyqtgraph theme setup
+- `ui/__init__.py`: package marker for the UI module
+- `materials/*.txt`: plain-text optical constants for the materials used by the simulator, typically stored as wavelength with `n` and optional `k`
+- `data/solar_spectrum.txt`: solar irradiance input used for the solar-band weighting and `P_sum` calculation
+- `data/atm_transmittance.txt`: atmospheric transmittance input used for the atmospheric-window weighting and `P_atm` calculation
+- `FDTD/ALL.fsp`: FDTD project file for the complementary full-wave simulation case
 
 ## Environment
 
